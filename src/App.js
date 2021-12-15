@@ -27,11 +27,13 @@ const App = () => {
   }
 
   const removerLivro = (idLivro) => {
-    if(window.confirm('Remover este livro?')){
-      const novaListaLivros = livros.filter(livro => livro.id !== idLivro);
-      setLivros(novaListaLivros)
-    }
+    const novaListaLivros = livros.filter(livro => livro.id !== idLivro);
+    setLivros(novaListaLivros);
   }
+
+  // const salvarDados = () => {
+  //   localStorage.setItem('dados livro', JSON.stringify(livros));
+  // }
 
   return (
     <BrowserRouter>

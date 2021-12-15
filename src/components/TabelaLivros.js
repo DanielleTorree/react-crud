@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from './Modal';
 
 const TabelaLivros = ({livros, removerLivro}) => {
 
-    const [modal, setModal] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [idLivro, setIdLivro] = useState('');
+
+    const remover = () => {
+        removerLivro(idLivro);
+    }
+    
 
     return(
         <div className='livros'>
@@ -34,7 +41,10 @@ const TabelaLivros = ({livros, removerLivro}) => {
                                 <td>
                                     <button 
                                         className='botao remover'
-                                        onClick={() => setModal(true)}
+                                        onClick={() => { 
+                                            setModalVisible(true);
+                                            setIdLivro(livro.id);
+                                        }}
                                     >Remover</button>
                                 </td>
                             </tr>
@@ -42,6 +52,16 @@ const TabelaLivros = ({livros, removerLivro}) => {
                     </tbody>
                 </table>
             )}
+            <Modal 
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                title='Remover este livro'
+                buttonName='Confirmar'
+                onConfirmar={() =>  {
+                    setModalVisible(false);
+                    remover();
+                }}
+            />
         </div>
     )
 }
