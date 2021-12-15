@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const CadastrarLivros = (props) => {
+    const dispatch = useDispatch();
     const [livro, setLivro] = useState({
         id: props.livro.id,
         isbn: props.livro.isbn,
         titulo: props.livro.titulo,
         autor: props.livro.autor,
-    })
-
+    });
     const [redirecionar, setRedirecionar] = useState(false);
 
     const handleLivroForm = e => {
@@ -17,12 +18,20 @@ const CadastrarLivros = (props) => {
             props.editarLivro(livro);
         } else{
             props.inserirLivro(livro);
+            handleAdd(livro);
         }
         setRedirecionar(true);
     }
 
     if(redirecionar){
         return <Redirect to='/'/>
+    }
+
+    const  handleAdd = (livro) => {
+        dispatch({
+            type: 'ADD_LIVRO', 
+            livro
+        })
     }
 
     return(

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/index';
+// import { useDispatch } from 'react-redux';
 
 // components
 import Menu from './components/Menu';
@@ -8,12 +11,13 @@ import CadastrarLivros from './components/CadastrarLivros';
 import NotFound from './components/NotFound';
 
 const App = () => {
-
+  // const dispatch = useDispatch();
   const [livros, setLivros] = useState([]);
 
   const inserirLivro = (livro) => {
     livro.id = livro.isbn;
     setLivros(prevLivros => ([...prevLivros, livro]));
+    // handleAdd();
   }
 
   const editarLivro = (livro) => {
@@ -31,55 +35,61 @@ const App = () => {
     setLivros(novaListaLivros);
   }
 
-  // const salvarDados = () => {
-  //   localStorage.setItem('dados livro', JSON.stringify(livros));
+  // const  handleAdd = () => {
+  //   dispatch({
+  //     type: 'ADD_RESERVE', 
+  //     livros
+  //   })
   // }
 
+
   return (
-    <BrowserRouter>
-        <Menu />
-        <Switch>
-          <Route 
-            exact path='/' 
-            render={() => 
-              <TabelaLivros 
-                livros={livros} 
-                removerLivro={removerLivro}
-              />
-            }
-          />
-          <Route 
-            exact 
-            path='/cadastrar' 
-            render={() => 
-              <CadastrarLivros 
-                inserirLivro={inserirLivro}
-                livro={{id: 0, isbn: '', titulo:'', autor:''}}
-              />
-            }
-          />
-          <Route 
-            exact
-            path='/editar/:isbnLivro'
-            render={(props) => {
-              const livro = livros.find(
-                livro => livro.isbn === props.match.params.isbnLivro
-              )
-              if(livro){
-                return (
-                  <CadastrarLivros 
-                    editarLivro={editarLivro}
-                    livro={livro}
-                  />
-                );
-              } else{
-                return <Redirect to='/' />  
-              }   
-            }}
-          />
-          <Route component={NotFound}/>
-        </Switch>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+          <Menu />
+          <Switch>
+            <Route 
+              exact path='/' 
+              render={() => 
+                <TabelaLivros 
+                  livros={livros} 
+                  removerLivro={removerLivro}
+                />
+              }
+            />
+            <Route 
+              exact 
+              path='/cadastrar' 
+              render={() => 
+                <CadastrarLivros 
+                  inserirLivro={inserirLivro}
+                  livro={{id: 0, isbn: '', titulo:'', autor:''}}
+                />
+              }
+            />
+            <Route 
+              exact
+              path='/editar/:isbnLivro'
+              render={(props) => {
+                const livro = livros.find(
+                  livro => livro.isbn === props.match.params.isbnLivro
+                )
+                if(livro){
+                  return (
+                    <CadastrarLivros 
+                      editarLivro={editarLivro}
+                      livro={livro}
+                    />
+                  );
+                } else{
+                  return <Redirect to='/' />  
+                }   
+              }}
+            />
+            <Route component={NotFound}/>
+          </Switch>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
