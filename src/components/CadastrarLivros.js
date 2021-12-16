@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { adicionarLivro, editarLivro } from '../actions';
 
 const CadastrarLivros = (props) => {
     const dispatch = useDispatch();
@@ -10,34 +11,19 @@ const CadastrarLivros = (props) => {
         titulo: props.livro.titulo,
         autor: props.livro.autor,
     });
-    const [redirecionar, setRedirecionar] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
     const handleLivroForm = e => {
         e.preventDefault();
         if(props.editarLivro){
-            handleEdi(livro);
+            dispatch(editarLivro(livro));
         } else{
-            handleAdd(livro);
+            dispatch(adicionarLivro(livro));
         }
-        setRedirecionar(true);
+        setRedirect(true)        
     }
-
-    if(redirecionar){
+    if(redirect){
         return <Redirect to='/'/>
-    }
-
-    const handleAdd = (livro) => {
-        dispatch({
-            type: 'ADD_LIVRO',
-            livro
-        })
-    }
-
-    const handleEdi = (livro) => {
-        dispatch({
-            type: 'EDI_LIVRO',
-            livro
-        })
     }
 
     return(
@@ -52,7 +38,6 @@ const CadastrarLivros = (props) => {
                 <input 
                     type='text' 
                     autoFocus 
-                    // defaultValue={livro.isbn}
                     id="fisbn" 
                     pattern='^978-85-7522-[0-9]{3}-[0-9]{1}$' 
                     value={livro.isbn}
@@ -68,8 +53,6 @@ const CadastrarLivros = (props) => {
                 <label>Título</label>
                 <input 
                     type='text'
-                    // defaultValue={livro.titulo}
-                    // ref='titulo' 
                     id='ftitulo' 
                     required 
                     value={livro.titulo}
@@ -85,8 +68,6 @@ const CadastrarLivros = (props) => {
                 <label>Autor</label>
                 <input 
                     type='text' 
-                    // defaultValue={livro.autor}
-                    // ref='autor'
                     id='fautor' 
                     required 
                     value={livro.autor}

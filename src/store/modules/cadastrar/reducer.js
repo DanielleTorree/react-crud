@@ -1,6 +1,8 @@
 import produce from 'immer';
 
-const cadastrar = (state = [], action) => {
+const initialState = []; 
+
+const cadastrar = (state = initialState, action) => {
     switch(action.type){
         case 'ADD_LIVRO':
             return [...state, action.livro];
@@ -8,18 +10,11 @@ const cadastrar = (state = [], action) => {
             return produce(state, draft => {
                 const livrosIndex = draft.findIndex(livro => livro.id === action.idLivro);
                 if(livrosIndex >= 0){
-                    draft.splice(livrosIndex, 1)
+                    draft.splice(livrosIndex, 1);
                 }
             });
         case 'EDI_LIVRO':
-            return produce(state, draft => {
-                const livrosIndex = draft.findIndex(livro => livro.id === action.livro.id);
-                const livros = state
-                    .slice(0, livrosIndex)
-                    .concat(state.slice(livrosIndex + 1));
-                const newLivros = [...state, livros].sort((a, b) => a.id - b.id);
-                draft.push(newLivros)
-            })
+            return initialState;
         default:
             return state;  
     }

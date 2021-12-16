@@ -1,20 +1,20 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // components
-import Menu from './components/Menu';
+import Header from './components/Header';
 import TabelaLivros from './components/TabelaLivros';
 import CadastrarLivros from './components/CadastrarLivros';
 import NotFound from './components/NotFound';
+import Login from './components/Login';
 
 const Rotas = () => {
   const livrosCadastrados = useSelector(state => state.cadastrar);
-  console.log(livrosCadastrados);
 
   return(
       <BrowserRouter>
-        <Menu />
+        <Header />
         <Switch>
           <Route 
             exact path='/' 
@@ -33,6 +33,7 @@ const Rotas = () => {
               />
             }
           />
+          <Route exact path='/login' render={() => <Login />}/>
           <Route 
             exact
             path='/editar/:isbnLivro'

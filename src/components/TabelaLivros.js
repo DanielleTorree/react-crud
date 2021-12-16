@@ -2,19 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
+import { removerLivro } from '../actions';
 
 const TabelaLivros = () => {
     const dispatch = useDispatch();
     const livrosCadastrados = useSelector(state => state.cadastrar);
     const [modalVisible, setModalVisible] = useState(false);
     const [idLivro, setIdLivro] = useState('');
-
-    const remover = () => {
-        dispatch({
-            type: 'DEL_LIVRO',
-            idLivro
-        })
-    }
 
     return(
         <div className='livros'>
@@ -62,8 +56,8 @@ const TabelaLivros = () => {
                 title='Remover este livro'
                 buttonName='Confirmar'
                 onConfirmar={() =>  {
+                    dispatch(removerLivro(idLivro));
                     setModalVisible(false);
-                    remover();
                 }}
             />
         </div>
