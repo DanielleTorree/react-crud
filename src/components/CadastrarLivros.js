@@ -15,9 +15,8 @@ const CadastrarLivros = (props) => {
     const handleLivroForm = e => {
         e.preventDefault();
         if(props.editarLivro){
-            props.editarLivro(livro);
+            handleEdi(livro);
         } else{
-            props.inserirLivro(livro);
             handleAdd(livro);
         }
         setRedirecionar(true);
@@ -27,9 +26,16 @@ const CadastrarLivros = (props) => {
         return <Redirect to='/'/>
     }
 
-    const  handleAdd = (livro) => {
+    const handleAdd = (livro) => {
         dispatch({
-            type: 'ADD_LIVRO', 
+            type: 'ADD_LIVRO',
+            livro
+        })
+    }
+
+    const handleEdi = (livro) => {
+        dispatch({
+            type: 'EDI_LIVRO',
             livro
         })
     }

@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
+import { useSelector, useDispatch } from 'react-redux';
 
-const TabelaLivros = ({livros, removerLivro}) => {
-
+const TabelaLivros = () => {
+    const dispatch = useDispatch();
+    const livrosCadastrados = useSelector(state => state.cadastrar);
     const [modalVisible, setModalVisible] = useState(false);
     const [idLivro, setIdLivro] = useState('');
 
     const remover = () => {
-        removerLivro(idLivro);
+        dispatch({
+            type: 'DEL_LIVRO',
+            idLivro
+        })
     }
-    
 
     return(
         <div className='livros'>
             <h1>Tabela de livros</h1>
-            {livros.length === 0 && <h2>Nenhum livro cadastrado</h2>}
-            {livros.length > 0 && (
+            {livrosCadastrados.length === 0 && <h2>Nenhum livro cadastrado</h2>}
+            {livrosCadastrados.length > 0 && (
                 <table className='tabela'>
                     <thead>
                         <tr>
@@ -28,7 +32,7 @@ const TabelaLivros = ({livros, removerLivro}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {livros.map(livro => (
+                        {livrosCadastrados.map(livro => (
                             <tr key={livro.isbn}>
                                 <td>{livro.isbn}</td>
                                 <td>{livro.titulo}</td>
