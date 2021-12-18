@@ -8,9 +8,11 @@ import TabelaLivros from './components/TabelaLivros';
 import CadastrarLivros from './components/CadastrarLivros';
 import NotFound from './components/NotFound';
 import Login from './components/Login';
+import Home from './components/Home';
 
 const Rotas = () => {
   const livrosCadastrados = useSelector(state => state.cadastrar);
+  const acessoConta = useSelector(state => state.acessoConta);
 
   return(
       <BrowserRouter>
@@ -19,21 +21,34 @@ const Rotas = () => {
           <Route 
             exact path='/' 
             render={() => 
-              <TabelaLivros 
-              />
+              acessoConta.acesso ? (
+                <TabelaLivros />
+              ) : (
+                <Home />
+              )              
             }
           />
           <Route 
             exact 
             path='/cadastrar' 
             render={() => 
-              <CadastrarLivros 
-                editarLivro={false}
-                livro={{id: 0, isbn: '', titulo:'', autor:''}}
-              />
+              acessoConta.acesso && (
+                <CadastrarLivros 
+                  editarLivro={false}
+                  livro={{id: 0, isbn: '', titulo:'', autor:''}}
+                />
+              )
             }
           />
-          <Route exact path='/login' render={() => <Login />}/>
+          <Route exact path='/login' 
+            render={() => 
+              !acessoConta.acesso ? (
+                <Login />
+              ) : (
+                <Redirect to='/' /> 
+              )
+            }
+          />
           <Route 
             exact
             path='/editar/:isbnLivro'
@@ -43,11 +58,12 @@ const Rotas = () => {
               )
               if(livro){
                 return (
-                  <CadastrarLivros 
-                    editarLivro={true}
-                    livro={livro}
-                  />
-                );
+                  acessoConta.acesso && (
+                    <CadastrarLivros 
+                      editarLivro={true}
+                      livro={livro}
+                    />
+                ));
               } else{
                 return <Redirect to='/' />  
               }   

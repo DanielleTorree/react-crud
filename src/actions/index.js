@@ -22,13 +22,20 @@ export const removerLivro = (idLivro) => {
 export const setEmail = (value) => {
     return {
         type: 'SET_EMAIL',
-        value
+        payload: value
     }
 }
 
 export const setPassword = (value) => {
     return {
         type: 'SET_PASSWORD',
-        value
+        payload: value
+    }
+}
+
+export const setAcesso = (value) => {
+    return {
+        type: 'SET_ACESSO',
+        payload: value
     }
 }

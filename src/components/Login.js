@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setEmail, setPassword } from '../actions';
+import { useDispatch } from 'react-redux';
+import { setEmail, setPassword, setAcesso } from '../actions';
+import './login.css'
+import { Redirect } from 'react-router-dom';
 
 const Login = () => {
     const dispatch = useDispatch(); 
-    const [acesso, setAcesso] = useState({
+    const [aces, setAces] = useState({
         email: '',
-        password: ''  
+        password: '',
+        acesso: false,   
     })
-    
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log(acesso.email, acesso.password)
     }
 
-    const contaAcesso = useSelector(state => state.cadastrar);
-
+    if(aces.acesso){
+        return <Redirect to='/'/>
+    }
     return(
         <form className='container' name='login' onSubmit={handleLogin}>
             <p>
@@ -23,8 +25,8 @@ const Login = () => {
                 <input
                     type='email'
                     onChange={(e) => {
-                        setAcesso({...acesso, email: e.target.value})
-                        dispatch(setEmail(e.target.value))
+                        setAces({...aces, email: e.target.value});
+                        dispatch(setEmail(e.target.value));
                     }}
                 />
             </p>
@@ -33,15 +35,20 @@ const Login = () => {
                 <input
                     type='password'
                     onChange={(e) => {
-                        setAcesso({...acesso, password: e.target.value})
-                        dispatch(setPassword(e.target.value))
+                        setAces({...aces, password: e.target.value});
+                        dispatch(setPassword(e.target.value));
                     }}
                 />
             </p>
             <p>
                 <button 
                     type='submit'
-                    disable={!acesso.email && !acesso.password}
+                    onClick={() => {
+                        if(aces.email !== '' && aces.password !== ''){
+                            setAces({...aces, acesso: true})
+                            dispatch(setAcesso(true));
+                        }
+                    }}
                 >Login</button>
             </p>
         </form>
