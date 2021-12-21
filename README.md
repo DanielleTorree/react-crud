@@ -7,6 +7,17 @@
 
 ### Criei este Projeto CRUD com o intuito de aprofundar meus conhecimentos em React. Este exercício foi tirado do livro React Aprenda Praticando, autor Maujor Samy Silva.
 
+### Seguem abaixo as imagens do site em React: 
+
+</br><div style="display: inline_block">
+    <img src="./src/img/img1.png"/>
+    <img src="./src/img/img2.png"/>
+    <img src="./src/img/img3.png"/>
+    <img src="./src/img/img4.png"/>
+    <img src="./src/img/img5.png"/>
+    <img src="./src/img/img6.png"/>
+    <img src="./src/img/img7.png"/>
+</div>
 
 ### Tecnologia utilizada
 <div style="display: inline_block">
